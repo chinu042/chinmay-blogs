@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chinmay Blogs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Sono:wght@200;300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap-icons.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/owl.carousel.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/owl.theme.default.min.css')}}">
+    <link href="{{url_for('static',filename='css/templatemo-pod-talk.css')}}" rel="stylesheet">
+</head>
+
+<body>
+<main>
+	<nav class="navbar navbar-expand-lg">
+		<div class="container">
+			<h3 class="text-white"><a href="/">CHINMAY BLOGS</a></h3>
+			<div class="ms-4">
+				{% if session['user_name'] %}
+				<a href="#" class="btn custom-btn custom-border-btn">{{session['user_name']}}</a>
+				<a href="/create_blog" class="btn custom-btn custom-border-btn">Create Blog</a>
+				{% else %}
+				<a href="/login" class="btn custom-btn custom-border-btn">Login</a>
+				<a href="/register" class="btn custom-btn custom-border-btn">Sign up</a>
+				{% endif %}
+			</div>
+		</div>
+	</nav>
+	<section class="hero-section">
+		<section class="latest-podcast-section section-padding pb-0" id="section_2">
+			<div class="container">
+				<div class="row justify-content-center">
+
+					<div class="col-lg-10 col-12">
+						<div class="section-title-wrap mb-5">
+							<h4 class="section-title">Blog</h4>
+						</div>
+
+						<div class="row">
+
+							<div class="col-lg-9 col-12">
+								<div class="custom-block-info">
+									<div class="custom-block-top d-flex mb-1">
+
+										<small>
+											<i class="bi-clock-fill custom-icon"></i>
+											{{data['result']['blog_date']}}
+										</small>
+
+									   
+									</div>
+
+									<h2 class="mb-2">{{data['result']['blog_title']}}</h2>
+
+									<p>{{data['result']['blog_content']}}</p>
+
+								   <div class="profile-block profile-detail-block d-flex flex-wrap align-items-center mt-5">
+										<ul class="social-icon ms-lg-auto ms-md-auto">
+											{% if session['user_name'] %}
+											{% if session['user_name'] == data['result']['blog_user'] %}
+											<a href='/update_blog/{{data["result"]["blog_id"]}}' class="btn custom-btn custom-border-btn">Update Blog</a>
+											{% endif %}
+											{% endif %}
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-4 mb-4 mb-lg-0">
+						<div class="custom-block d-flex">
+							
+							<div class="custom-block-info">
+								<form action="/add_comment" method="post" class="custom-form contact-form" role="form">
+									<label for="">Comment: </label>
+									<input type="text" class="form-control" name="comment" />
+									<input type="hidden" name="blog_id" value="{{data['result']['blog_id']}}" >
+									<button type="submit" class="form-control">Submit</button>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="section-title-wrap mb-5">
+						<h4 class="section-title">Comments</h4>
+					</div>
+					{% for i in data['comment_data'] %}
+					<div class="col-lg-4 col-4 mb-4 mb-lg-0">
+						<div class="custom-block d-flex">
+							
+							<div class="custom-block-info">
+								<h5 class="mb-2">
+									<a href='/view_blog/'>
+										{{i['comment_content']}}
+									</a>
+								</h5>
+								<div class="profile-block d-flex">
+									<p>
+										create at {{i['comment_date']}} By
+										<strong>{{i['comment_user']}}</strong></p>
+								</div>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+			
+			</div>
+
+		</section>
+		</section>
+</main>
+<footer class="site-footer">   
+    <div class="container pt-5">
+        <div class="row align-items-center">
+
+            <div class="col-lg-3 col-12">
+                <p class="copyright-text mb-0">&Copy 2023 
+                 </div>
+				 
+				 <div class="col-lg-3 col-12">
+					<a  class="btn custom-btn custom-border-btn" href="https://github.com/chinu042" target="_blank">Site by  Chinmay Jain</a> 
+					 </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+
+<!-- JAVASCRIPT FILES -->
+<script src="{{url_for('static',filename='js/jquery.min.js')}}"></script>
+<script src="{{url_for('static',filename='js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{url_for('static',filename='js/owl.carousel.min.js')}}"></script>
+<script src="{{url_for('static',filename='js/custom.js')}}"></script>
+</html>
